@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<FlowPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <MenuBar minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="1200.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+              <items>
+                  <MenuItem mnemonicParsing="false" onAction="#open" text="Open" />
+                  <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem mnemonicParsing="false" onAction="#save" text="Save" />
+                  <MenuItem mnemonicParsing="false" onAction="#add" text="Add over" />
+                  <MenuItem mnemonicParsing="false" onAction="#upload" text="upload" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveUserShape" text="create" />
+              </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+         <FlowPane.margin>
+            <Insets />
+         </FlowPane.margin>
+      </MenuBar>
+      <VBox fx:id="vBox" maxWidth="200.0" minWidth="-Infinity" prefHeight="770.0" prefWidth="166.0" spacing="15.0" stylesheets="@../style/btnsShape_style.css">
+         <children>
+             <MenuButton fx:id="menuShapes" mnemonicParsing="false" text="Shapes" prefHeight="35.0" prefWidth="200.0" textFill="#ae7777" styleClass="menuShapes" stylesheets="@../style/btnsShape_style.css"/>
+            <ColorPicker fx:id="colorPicker" editable="true" onAction="#colorPickerSelect" prefHeight="35.0" prefWidth="200.0" styleClass="ColorPicker" stylesheets="@../style/btnsShape_style.css" />
+             <Button id="ID_LSD" mnemonicParsing="false" onAction="#rainbowClicked" styleClass="btnLSD" stylesheets="@../style/btnsShape_style.css" prefHeight="35.0" prefWidth="200.0" text="" textFill="#ff0000">
+                 <font>
+                     <Font name="Berlin Sans FB" size="15.0" />
+                 </font>
+             </Button>
+             <Button mnemonicParsing="false" onAction="#clearAll" prefHeight="35.0" prefWidth="200.0" text="Clear" textFill="#ae7777" styleClass="btnAction">
+                 <font>
+                     <Font name="Berlin Sans FB" size="15.0" />
+                 </font>
+             </Button>
+             <Button mnemonicParsing="false" onAction="#rollBack" prefHeight="35.0" prefWidth="200.0" text="Back" textFill="#ae7777" styleClass="btnAction">
+                 <font>
+                     <Font name="Berlin Sans FB" size="15.0" />
+                 </font>
+             </Button>
+         </children>
+         <padding>
+            <Insets left="15.0" right="15.0" top="15.0" />
+         </padding>
+      </VBox>
+      <Canvas fx:id="canvas" height="770.0" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" onMouseDragged="#mouseDragged" width="1034.0" />
+   </children>
+</FlowPane>
