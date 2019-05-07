@@ -1,7 +1,10 @@
 package sample;
 
-import entity.*;
+import action.Signer;
+import entity.MyPoint;
 import entity.Shape;
+import entity.ShapeFactory;
+import entity.ShapeListWrapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,9 +20,13 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.net.URLDecoder;
 import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,10 +53,11 @@ public class Controller implements Initializable {
     private boolean rainbow = false;
     private ArrayList<String> types = new ArrayList<>();
     private HashMap<String, ShapeFactory> factoryHashMap = new HashMap<>();
+    private static final Logger LOGGER = Logger.getLogger(Controller.class);
 
     public void colorPickerSelect(){
         canvas.getGraphicsContext2D().setStroke(colorPicker.getValue());
-        Logger.getLogger(Controller.class).info("chosen color: " + colorPicker.getValue());
+        LOGGER.info("chosen color: " + colorPicker.getValue());
     }
 
     public void mousePressed(MouseEvent mouseEvent){
@@ -80,14 +88,14 @@ public class Controller implements Initializable {
             Shape _shape = shapeFactory.newShape(shape.getFirstPoint(), new MyPoint(mouseEvent.getX(), mouseEvent.getY()));
             _shape.setColor((Color)canvas.getGraphicsContext2D().getStroke());
             list.add(_shape);
-            Logger.getLogger(Controller.class).info("add new shape: " + _shape.getType());
+            LOGGER.info("add new shape: " + _shape.getType());
             _shape.draw(canvas);
-            Logger.getLogger(Controller.class).info("draw new shape: " + _shape.getType());
+            LOGGER.info("draw new shape: " + _shape.getType());
         }
     }
 
     public void save() {
-        Logger.getLogger(Controller.class).info("file -> save...");
+        LOGGER.info("file -> save...");
         TextInputDialog inputDialog = new TextInputDialog();
         inputDialog.setHeaderText("Enter XML-file name");
         inputDialog.setContentText("File name:");
@@ -97,7 +105,7 @@ public class Controller implements Initializable {
         if (result.isPresent()){
             fileName = result.get() + ".xml";
             try (FileOutputStream encoder = new FileOutputStream(fileName)){
-                Logger.getLogger(Main.class).info("file " + fileName + " created");
+                LOGGER.info("file " + fileName + " created");
                 ShapeListWrapper drawnShapes = new ShapeListWrapper();
                 drawnShapes.setShapeList(list);
                 JAXBContext context = JAXBContext.newInstance(ShapeListWrapper.class);
@@ -105,16 +113,16 @@ public class Controller implements Initializable {
                 m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
                 m.marshal(drawnShapes, encoder);
             } catch (IOException | JAXBException e) {
-                Logger.getLogger(Controller.class).error(e);
+                LOGGER.error(e);
             }
-            Logger.getLogger(Main.class).info("file " + fileName + " saved");
+            LOGGER.info("file " + fileName + " saved");
         }
     }
 
     public void add() {
         File file = fileChooser.showOpenDialog(null);
         if (file != null) {
-            Logger.getLogger(Main.class).info("file " + file.getName() + " opened");
+            LOGGER.info("file " + file.getName() + " opened");
             try (FileInputStream decoder = new FileInputStream(file)) {
                 JAXBContext context = JAXBContext.newInstance(ShapeListWrapper.class);
                 Unmarshaller um = context.createUnmarshaller();
@@ -137,9 +145,9 @@ public class Controller implements Initializable {
                 }
             } catch (JAXBException | IOException e){
                 alert.showAndWait();
-                Logger.getLogger(Controller.class).error(e);
+                LOGGER.error(e);
             }
-            Logger.getLogger(Main.class).info("file " + file.getName() + " closed");
+            LOGGER.info("file " + file.getName() + " closed");
             canvas.getGraphicsContext2D().setStroke(Color.WHITE);
         }
     }
@@ -177,7 +185,7 @@ public class Controller implements Initializable {
     private void chooseShape(ActionEvent actionEvent) {
         MenuItem item = (MenuItem) actionEvent.getSource();
         menuShapes.setText(item.getText());
-        Logger.getLogger(Controller.class).info("button clicked: btn" + item.getText());
+        LOGGER.info("button clicked: btn" + item.getText());
         shapeFactory = factoryHashMap.get(item.getText());
     }
 
@@ -191,17 +199,21 @@ public class Controller implements Initializable {
                     File curr = new File(pathToDir + "\\" + module);
                     if (curr.isFile() && module.contains(".class")) {
                         String moduleName = module.split("\\.class")[0];
-                        Class loadedClass = loader.loadClass(moduleName);
-                        //Logger.getLogger(Controller.class).info(moduleName + ".class loaded");
-                        if (loadedClass != null) {
-                            if (ShapeFactory.class.isAssignableFrom(loadedClass)) {
-                                factoryHashMap.put(moduleName.substring(0, moduleName.indexOf("Factory")), (ShapeFactory) loadedClass.newInstance());
-                            }
-                            if (Shape.class.isAssignableFrom(loadedClass)) {
-                                types.add(moduleName);
-                                MenuItem item = new MenuItem(loadedClass.getSimpleName());
-                                item.setOnAction(this::chooseShape);
-                                menuShapes.getItems().add(item);
+                        Signer signer = Signer.getInstance(true);
+                        if (signer.isOriginal(pathToDir + module)) {
+                            loader.setFsize(signer.signedFileContentSize);
+                            Class loadedClass = loader.loadClass(moduleName);
+                            LOGGER.info(moduleName + ".class loaded");
+                            if (loadedClass != null) {
+                                if (ShapeFactory.class.isAssignableFrom(loadedClass)) {
+                                    factoryHashMap.put(moduleName.substring(0, moduleName.indexOf("Factory")), (ShapeFactory) loadedClass.newInstance());
+                                }
+                                if (Shape.class.isAssignableFrom(loadedClass)) {
+                                    types.add(moduleName);
+                                    MenuItem item = new MenuItem(loadedClass.getSimpleName());
+                                    item.setOnAction(this::chooseShape);
+                                    menuShapes.getItems().add(item);
+                                }
                             }
                         }
                     }
@@ -211,10 +223,69 @@ public class Controller implements Initializable {
                 }
             }
         }catch (Exception e){
-            Logger.getLogger(Controller.class).error("Error while uploading shapes:\n" + e);
+            LOGGER.error("Error while uploading shapes:\n" + e);
             alert.setHeaderText("Error while uploading shapes");
             alert.showAndWait();
         }
+    }
+
+    private void loadJar(String jarPath) throws IOException{
+        File pluginDir = new File(jarPath);
+
+        File[] jars = pluginDir.listFiles(file -> file.isFile() && file.getName().endsWith(".jar"));
+
+        for (int i = 0; i < jars.length; i++) {
+            try {
+                JarFile jarFile = new JarFile(jars[i]);
+                if (jarVerify(jarFile)){
+                    URL jarURL = jars[i].toURI().toURL();
+                    URLClassLoader classLoader = new URLClassLoader(new URL[]{jarURL});
+                    Enumeration<JarEntry> entries = jarFile.entries();
+                    while (entries.hasMoreElements()){
+                        JarEntry entry = entries.nextElement();
+                        if (entry.getName().endsWith(".class")){
+                            String moduleName = entry.getName();
+                            moduleName = moduleName.replaceAll("/", ".").split("\\.class")[0];
+                            Class loadedClass = classLoader.loadClass("modules.shapes." + moduleName);
+                            if (loadedClass != null) {
+                                if (ShapeFactory.class.isAssignableFrom(loadedClass)) {
+                                    factoryHashMap.put(loadedClass.getSimpleName().substring(0, loadedClass.getSimpleName().indexOf("Factory")), (ShapeFactory) loadedClass.newInstance());
+                                }
+                                if (Shape.class.isAssignableFrom(loadedClass)) {
+                                    types.add(loadedClass.getSimpleName());
+                                    MenuItem item = new MenuItem(loadedClass.getSimpleName());
+                                    item.setOnAction(this::chooseShape);
+                                    menuShapes.getItems().add(item);
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (MalformedURLException | IllegalAccessException | ClassNotFoundException | InstantiationException e) {
+                Logger.getLogger(Controller.class).error("Error while uploading shapes:\n" + e);
+            }
+        }
+    }
+
+    private static boolean jarVerify(JarFile jar) throws IOException{
+        Enumeration<JarEntry> entries = jar.entries();
+        while (entries.hasMoreElements()) {
+            JarEntry entry = entries.nextElement();
+            try {
+                byte[] buffer = new byte[16384];
+                InputStream is = jar.getInputStream(entry);
+                while ((is.read(buffer,0,buffer.length)) != -1){
+                    // Только чтение, которое может вызвать
+                    // SecurityException, если цифровая подпись
+                    // нарушена.
+                }
+            } catch (SecurityException se) {
+                LOGGER.error("SecurityException : " +
+                        se.getMessage());
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -223,16 +294,17 @@ public class Controller implements Initializable {
             String dir = new File(URLDecoder.decode(getClass().getProtectionDomain().getCodeSource().getLocation().getPath(), "UTF-8")).getPath();
             loadModules(dir + "\\modules\\shapes\\", "modules.shapes");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            LOGGER.error(e);
         }
     }
 
     public void upload(ActionEvent actionEvent) {
-/*        try {
-            String dir = new File(URLDecoder.decode(getClass().getProtectionDomain().getCodeSource().getLocation().getPath(), "UTF-8")).getPath();
-            loadModules(dir + "\\modules\\shapes\\", "modules.shapes");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        /*try {
+            loadJar("F:\\MyPaint\\plugins");
+        } catch (IOException e) {
+            Logger.getLogger(Controller.class).error("Error while uploading shapes:\n" + e);
+            alert.setHeaderText("Error while uploading shapes");
+            alert.showAndWait();
         }*/
     }
 

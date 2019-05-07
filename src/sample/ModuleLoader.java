@@ -10,11 +10,18 @@ public class ModuleLoader extends ClassLoader {
     //Path to modules
     private String pathtobin;
     private String packageName;
+    //if we used Digital Signature
+    private int fsize;
+    private static final Logger LOGGER = Logger.getLogger(ModuleLoader.class);
 
     public ModuleLoader(String pathtobin, String packageName, ClassLoader parent) {
         super(parent);
         this.pathtobin = pathtobin;
         this.packageName = packageName;
+    }
+
+    public void setFsize(int fsize) {
+        this.fsize = fsize;
     }
 
     @Override
@@ -24,10 +31,10 @@ public class ModuleLoader extends ClassLoader {
             // Get byte-code and upload runtime
             b = Files.readAllBytes(Paths.get(pathtobin + className + ".class"));
         }catch (IOException e) {
-            Logger.getLogger(Controller.class).error(e);
+            LOGGER.error(e);
             return super.findClass(className);
         }
-        return defineClass(packageName + '.' + className, b, 0, b.length);
+        return defineClass(packageName + '.' + className, b, 0, this.fsize == 0 ? b.length : fsize);
     }
 }
 
