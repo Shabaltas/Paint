@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>
+<document>
+    <user>
+        <uid>E85CC77C-2187-13DA-BED6-F8C5441E1957</uid>
+        <name>Anika Littel</name>
+        <email>gabriele_walter@reilly.name</email>
+        <city>Lake Annalisa</city>
+        <address>0628 Jaskolski Knolls</address>
+        <phone>305-968-9650</phone>
+        <gender>male</gender>
+        <skills>
+            <skill>SVN</skill>
+            <skill>REST</skill>
+        </skills>
+    </user>
+    <user>
+        <uid>253937B6-7020-7522-B81E-BD3FE7F43D9F</uid>
+        <name>Annetta Bode</name>
+        <email>rosamond.paucek@lindgren.biz</email>
+        <city>North Zora</city>
+        <address>5465 Rubie Cliffs</address>
+        <phone>919-433-6119</phone>
+        <gender>female</gender>
+        <skills>
+            <skill>CodeIgniter</skill>
+        </skills>
+    </user>
+    <user>
+        <uid>333015BE-1DCB-952B-FBD0-2D0757DC8157</uid>
+        <name>Brittney Klocko</name>
+        <email>dee@morissette.co.uk</email>
+        <city>Westbury</city>
+        <address>391 Russel Spurs</address>
+        <phone>536-638-9683</phone>
+        <gender>male</gender>
+        <skills>
+            <skill>SublimeText</skill>
+            <skill>Marionette.JS</skill>
+        </skills>
+    </user>
+    <user>
+        <uid>333015BE-1DCB-952B-FBD0-2D0757DC8157</uid>
+        <name>Britey Klocko</name>
+        <email>dee@morite.co.uk</email>
+        <city>Wesury</city>
+        <address>391 Rul Spurs</address>
+        <phone>536-69683</phone>
+        <gender>male</gender>
+        <skills>
+            <skill>CSS3</skill>
+            <skill>Marionette.JS</skill>
+        </skills>
+    </user>
+</document>
