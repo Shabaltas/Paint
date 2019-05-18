@@ -1,4 +1,4 @@
-package entity;
+package by.bsuir.oop.paint.entity;
 
 public abstract class ShapeFactory {
 

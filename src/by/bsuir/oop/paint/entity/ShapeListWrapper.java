@@ -1,4 +1,4 @@
-package entity;
+package by.bsuir.oop.paint.entity;
 
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;

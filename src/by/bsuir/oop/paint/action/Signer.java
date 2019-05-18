@@ -1,4 +1,4 @@
-package action;
+package by.bsuir.oop.paint.action;
 
 import org.apache.log4j.Logger;
 import java.io.*;
@@ -86,8 +86,7 @@ public class Signer {
                     sign(fpath + "\\" + file);
                 }
             }
-        }
-        try (FileInputStream fis = new FileInputStream(fpath);
+        }else try (FileInputStream fis = new FileInputStream(fpath);
              BufferedInputStream bufis = new BufferedInputStream(fis)){
             int fsize = fis.available();
             Signature dsa = Signature.getInstance(SIGNATURE_ALGORITM, PROVIDER);
@@ -144,6 +143,6 @@ public class Signer {
 
     public static void main(String[] args){
         Signer signer = Signer.getInstance(false);
-        signer.sign("F:\\MyPaint\\out\\production\\Paint\\modules\\shapes");
+        signer.sign("F:\\modules\\shapes");
     }
 }

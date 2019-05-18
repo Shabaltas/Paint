@@ -1,10 +1,11 @@
-package sample;
+package by.bsuir.oop.paint.sample;
 
-import action.Signer;
-import entity.MyPoint;
-import entity.Shape;
-import entity.ShapeFactory;
-import entity.ShapeListWrapper;
+import by.bsuir.oop.paint.action.Signer;
+import by.bsuir.oop.paint.configuration.language.Words;
+import by.bsuir.oop.paint.entity.MyPoint;
+import by.bsuir.oop.paint.entity.Shape;
+import by.bsuir.oop.paint.entity.ShapeFactory;
+import by.bsuir.oop.paint.entity.ShapeListWrapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,19 +34,30 @@ import java.util.regex.Pattern;
 public class Controller implements Initializable {
 
     private static FileChooser fileChooser = new FileChooser();
+    static String extension = Main.extension;
+    static HashMap<Words, String> languageMap = Main.language.getWordsMap();
     private static Alert alert = new Alert(Alert.AlertType.ERROR);
     static {
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML files", "*.xml"));
         alert.setTitle("Error dialog");
         alert.setHeaderText("Check your file");
     }
+    @FXML
+    private Menu menuFile, menuEdit, menuHelp;
+
+    @FXML
+    private MenuButton menuShapes;
+
+    @FXML
+    private Button bClear, bBack;
+
+    @FXML
+    private MenuItem iopen, iadd, isave, iclose, icreate, iupload, idelete, iabout;
 
     @FXML
     private Canvas canvas;
     @FXML
     private ColorPicker colorPicker;
-    @FXML
-    private MenuButton menuShapes;
 
     private ArrayList<Shape> list = new ArrayList<>();
     private static ShapeFactory shapeFactory;
@@ -197,13 +209,13 @@ public class Controller implements Initializable {
             if (modules != null) {
                 for (String module : modules) {
                     File curr = new File(pathToDir + "\\" + module);
-                    if (curr.isFile() && module.contains(".class")) {
-                        String moduleName = module.split("\\.class")[0];
+                    if (curr.isFile() && module.contains(extension)) {
+                        String moduleName = module.split(extension)[0];
                         Signer signer = Signer.getInstance(true);
                         if (signer.isOriginal(pathToDir + module)) {
                             loader.setFsize(signer.signedFileContentSize);
                             Class loadedClass = loader.loadClass(moduleName);
-                            LOGGER.info(moduleName + ".class loaded");
+                            LOGGER.info(moduleName + extension + " loaded");
                             if (loadedClass != null) {
                                 if (ShapeFactory.class.isAssignableFrom(loadedClass)) {
                                     factoryHashMap.put(moduleName.substring(0, moduleName.indexOf("Factory")), (ShapeFactory) loadedClass.newInstance());
@@ -291,21 +303,28 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            menuShapes.setText(languageMap.get(Words.SHAPES));
+            menuFile.setText(languageMap.get(Words.FILE));
+            menuEdit.setText(languageMap.get(Words.EDIT));
+            menuHelp.setText(languageMap.get(Words.HELP));
+            iabout.setText(languageMap.get(Words.ABOUT));
+            iadd.setText(languageMap.get(Words.ADD));
+            iclose.setText(languageMap.get(Words.CLOSE));
+            icreate.setText(languageMap.get(Words.CREATE));
+            iopen.setText(languageMap.get(Words.OPEN));
+            isave.setText(languageMap.get(Words.SAVE));
+            idelete.setText(languageMap.get(Words.DELETE));
+            iupload.setText(languageMap.get(Words.UPLOAD));
+            bBack.setText(languageMap.get(Words.BACK));
+            bClear.setText(languageMap.get(Words.CLEAR));
             String dir = new File(URLDecoder.decode(getClass().getProtectionDomain().getCodeSource().getLocation().getPath(), "UTF-8")).getPath();
-            loadModules(dir + "\\modules\\shapes\\", "modules.shapes");
+            loadModules("F:\\modules\\shapes\\", "by.bsuir.oop.paint.modules.shapes");
         } catch (UnsupportedEncodingException e) {
             LOGGER.error(e);
         }
     }
 
     public void upload(ActionEvent actionEvent) {
-        /*try {
-            loadJar("F:\\MyPaint\\plugins");
-        } catch (IOException e) {
-            Logger.getLogger(Controller.class).error("Error while uploading shapes:\n" + e);
-            alert.setHeaderText("Error while uploading shapes");
-            alert.showAndWait();
-        }*/
     }
 
     public void saveUserShape(ActionEvent actionEvent) {

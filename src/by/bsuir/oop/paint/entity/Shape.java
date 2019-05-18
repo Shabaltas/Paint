@@ -1,4 +1,4 @@
-package entity;
+package by.bsuir.oop.paint.entity;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
@@ -10,9 +10,9 @@ public  class Shape {
 
     Shape(){}
 
-    public MyPoint firstPoint, secondPoint;
+    protected MyPoint firstPoint, secondPoint;
 
-    protected String color;
+    private String color;
 
     @XmlAttribute
     private String type;
