@@ -13,14 +13,13 @@ import org.apache.log4j.Logger;
 
 public class Main extends Application {
 
-    Configuration config ;
+    private Configuration config ;
     static String extension;
     static Language language;
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Logger.getLogger(Main.class).info("start");
         config = ConfigController.readFromXML();
-        System.out.println(config);
+        Logger.getLogger(Main.class.getSimpleName()).info(config);
         extension = config.getExtension();
         if ("english".equals(config.getLanguage())){
             language = new English();
@@ -30,7 +29,6 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("LinaPaint");
         primaryStage.setScene(new Scene(root, config.getWidth(), config.getHeight()));
-        primaryStage.setOnCloseRequest(we -> Logger.getLogger(Main.class).info("end"));
         primaryStage.show();
     }
 

@@ -2,10 +2,7 @@ package by.bsuir.oop.paint.sample;
 
 import by.bsuir.oop.paint.action.Signer;
 import by.bsuir.oop.paint.configuration.language.Words;
-import by.bsuir.oop.paint.entity.MyPoint;
-import by.bsuir.oop.paint.entity.Shape;
-import by.bsuir.oop.paint.entity.ShapeFactory;
-import by.bsuir.oop.paint.entity.ShapeListWrapper;
+import by.bsuir.oop.paint.entity.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -34,8 +31,8 @@ import java.util.regex.Pattern;
 public class Controller implements Initializable {
 
     private static FileChooser fileChooser = new FileChooser();
-    static String extension = Main.extension;
-    static HashMap<Words, String> languageMap = Main.language.getWordsMap();
+    private static String extension = Main.extension;
+    private static HashMap<Words, String> languageMap = Main.language.getWordsMap();
     private static Alert alert = new Alert(Alert.AlertType.ERROR);
     static {
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML files", "*.xml"));
@@ -65,25 +62,31 @@ public class Controller implements Initializable {
     private boolean rainbow = false;
     private ArrayList<String> types = new ArrayList<>();
     private HashMap<String, ShapeFactory> factoryHashMap = new HashMap<>();
-    private static final Logger LOGGER = Logger.getLogger(Controller.class);
+    private static final Logger LOGGER = Logger.getLogger(Controller.class.getSimpleName());
 
     public void colorPickerSelect(){
         canvas.getGraphicsContext2D().setStroke(colorPicker.getValue());
         LOGGER.info("chosen color: " + colorPicker.getValue());
     }
 
+    private void chooseShape(ActionEvent actionEvent) {
+        MenuItem item = (MenuItem) actionEvent.getSource();
+        menuShapes.setText(item.getText());
+        LOGGER.info("button clicked: btn" + item.getText());
+        shapeFactory = factoryHashMap.get(item.getText());
+    }
+
     public void mousePressed(MouseEvent mouseEvent){
         if (shapeFactory != null) {
-            shape = shapeFactory.newShape(new MyPoint(0, 0), new MyPoint(0, 0));
-            shape.setFirstPoint(new MyPoint(mouseEvent.getX(), mouseEvent.getY()));
+            shape = shapeFactory.newShape(new MyPoint(mouseEvent.getX(), mouseEvent.getY()), new MyPoint(0, 0));
         }
     }
 
     public void mouseDragged(MouseEvent mouseEvent) {
         if (shapeFactory != null){
-            if (rainbow){
-                Color color = (Color)canvas.getGraphicsContext2D().getStroke();
-                canvas.getGraphicsContext2D().setStroke(Color.color((color.getRed() + 0.01)%1, (color.getGreen() + 0.01)%1, (color.getBlue() + 0.01)%1, color.getOpacity()));
+            if (rainbow) {
+                Color color = (Color) canvas.getGraphicsContext2D().getStroke();
+                canvas.getGraphicsContext2D().setStroke(Color.color((color.getRed() + 0.01) % 1, (color.getGreen() + 0.01) % 1, (color.getBlue() + 0.01) % 1, color.getOpacity()));
             } else {
                 canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 Paint tmpPaint = canvas.getGraphicsContext2D().getStroke();
@@ -97,12 +100,12 @@ public class Controller implements Initializable {
 
     public void mouseReleased(MouseEvent mouseEvent){
         if (shapeFactory != null) {
-            Shape _shape = shapeFactory.newShape(shape.getFirstPoint(), new MyPoint(mouseEvent.getX(), mouseEvent.getY()));
-            _shape.setColor((Color)canvas.getGraphicsContext2D().getStroke());
-            list.add(_shape);
-            LOGGER.info("add new shape: " + _shape.getType());
-            _shape.draw(canvas);
-            LOGGER.info("draw new shape: " + _shape.getType());
+            shape.setSecondPoint(new MyPoint(mouseEvent.getX(), mouseEvent.getY()));
+            shape.setColor((Color)canvas.getGraphicsContext2D().getStroke());
+            LOGGER.info("add new shape: " + shape.getType());
+            shape.draw(canvas);
+            list.add(shape);
+            LOGGER.info("draw new shape: " + shape.getType());
         }
     }
 
@@ -116,7 +119,7 @@ public class Controller implements Initializable {
         String fileName;
         if (result.isPresent()){
             fileName = result.get() + ".xml";
-            try (FileOutputStream encoder = new FileOutputStream(fileName)){
+            try (FileOutputStream encoder = new FileOutputStream("data\\user\\pictures\\" + fileName)){
                 LOGGER.info("file " + fileName + " created");
                 ShapeListWrapper drawnShapes = new ShapeListWrapper();
                 drawnShapes.setShapeList(list);
@@ -181,9 +184,11 @@ public class Controller implements Initializable {
 
     public void rollBack() {
         if (!list.isEmpty()) {
+            Color color = Color.valueOf(list.get(list.size()-1).getColor());
             list.remove(list.size() - 1);
             canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
             drawAll();
+            canvas.getGraphicsContext2D().setStroke(color);
         }
     }
 
@@ -192,13 +197,6 @@ public class Controller implements Initializable {
             canvas.getGraphicsContext2D().setStroke(Color.valueOf(_shape.getColor()));
             _shape.draw(canvas);
         }
-    }
-
-    private void chooseShape(ActionEvent actionEvent) {
-        MenuItem item = (MenuItem) actionEvent.getSource();
-        menuShapes.setText(item.getText());
-        LOGGER.info("button clicked: btn" + item.getText());
-        shapeFactory = factoryHashMap.get(item.getText());
     }
 
     private void loadModules(String pathToDir, String packageName) {
@@ -243,9 +241,7 @@ public class Controller implements Initializable {
 
     private void loadJar(String jarPath) throws IOException{
         File pluginDir = new File(jarPath);
-
         File[] jars = pluginDir.listFiles(file -> file.isFile() && file.getName().endsWith(".jar"));
-
         for (int i = 0; i < jars.length; i++) {
             try {
                 JarFile jarFile = new JarFile(jars[i]);
@@ -325,8 +321,50 @@ public class Controller implements Initializable {
     }
 
     public void upload(ActionEvent actionEvent) {
+        List<File> files = fileChooser.showOpenMultipleDialog(null);
+        if (files != null) {
+            for (File file : files) {
+                LOGGER.info("file " + file.getName() + " opened");
+                try (FileInputStream decoder = new FileInputStream(file)) {
+                    JAXBContext context = JAXBContext.newInstance(UserShape.class);
+                    Unmarshaller um = context.createUnmarshaller();
+                    UserShape uShape = (UserShape) um.unmarshal(decoder);
+                    String name = file.getName().replace(".xml", "");
+                    factoryHashMap.put(name, new UserShapeFactory(uShape, factoryHashMap));
+                    MenuItem item = new MenuItem(name);
+                    item.setOnAction(this::chooseShape);
+                    menuShapes.getItems().add(item);
+                } catch (JAXBException | IOException e) {
+                    alert.showAndWait();
+                    LOGGER.error(e);
+                }
+                LOGGER.info("Shape " + file.getName() + " uploaded");
+            }
+        }
     }
 
     public void saveUserShape(ActionEvent actionEvent) {
+        LOGGER.info("file -> creating user shape...");
+        TextInputDialog inputDialog = new TextInputDialog();
+        inputDialog.setHeaderText("Enter name of your shape");
+        inputDialog.setContentText("Your shape:");
+        inputDialog.setTitle("Create");
+        Optional<String> uShapeName = inputDialog.showAndWait();
+        String fileName;
+        if (uShapeName.isPresent()){
+            fileName = uShapeName.get() + ".xml";
+            try (FileOutputStream encoder = new FileOutputStream("data\\user\\shapes\\" + fileName)){
+                LOGGER.info("Shape " + uShapeName + " created");
+                UserShape uShape = new UserShape();
+                uShape.setShapes(list);
+                JAXBContext context = JAXBContext.newInstance(UserShape.class);
+                Marshaller m = context.createMarshaller();
+                m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                m.marshal(uShape, encoder);
+            } catch (IOException | JAXBException e) {
+                LOGGER.error(e);
+            }
+            LOGGER.info("User shape \"" + fileName + "\" saved");
+        }
     }
 }

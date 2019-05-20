@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import org.apache.log4j.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -16,7 +17,8 @@ import java.io.IOException;
 
 public class ConfigController {
 
-    private static final String filename = "data\\Configuration.xml";
+    private static final org.apache.log4j.Logger LOGGER = Logger.getLogger(ConfigController.class.getSimpleName());
+    private static final String FILENAME = "data\\configuration\\Configuration.xml";
     @FXML
     public MenuButton btnLanguage;
     @FXML
@@ -26,25 +28,25 @@ public class ConfigController {
     @FXML
     public TextField fieldHeight;
 
-    public void saveConfig(ActionEvent actionEvent) {
+    public void saveConfig() {
         Configuration config = new Configuration();
         config.setExtension(fieldExtension.getText());
         config.setHeight(Integer.valueOf(fieldHeight.getText()));
         config.setWidth(Integer.valueOf(fieldWidth.getText()));
         config.setLanguage(btnLanguage.getText());
-        try (FileOutputStream encoder = new FileOutputStream(filename)) {
+        try (FileOutputStream encoder = new FileOutputStream(FILENAME)) {
             JAXBContext context = JAXBContext.newInstance(Configuration.class);
             Marshaller m = context.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             m.marshal(config, encoder);
         } catch (IOException | JAXBException e) {
-            e.printStackTrace();
+            LOGGER.warn(e);
         }
     }
 
     public static Configuration readFromXML(){
         Configuration config;
-            try (FileInputStream decoder = new FileInputStream(filename)) {
+            try (FileInputStream decoder = new FileInputStream(FILENAME)) {
                 JAXBContext context = JAXBContext.newInstance(Configuration.class);
                 Unmarshaller um = context.createUnmarshaller();
                 config = (Configuration) um.unmarshal(decoder);
@@ -61,6 +63,6 @@ public class ConfigController {
 
     public void changeLanguage(ActionEvent actionEvent) {
         btnLanguage.setText(((MenuItem)actionEvent.getSource()).getText());
-        System.out.println("SAVED");
+        LOGGER.info("SAVED");
     }
 }

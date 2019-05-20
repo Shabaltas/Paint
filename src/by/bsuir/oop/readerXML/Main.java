@@ -16,14 +16,12 @@ public class Main {
         SAXParser parser = factory.newSAXParser();
 
         XMLHandler handler = new XMLHandler();
-        parser.parse(new File("data\\feed-test.xml"), handler);
+        parser.parse(new File("data\\SAXfiles\\feed.xml"), handler);
         List<User> users = handler.getListUsers();
-        System.out.println("Amount of all users: " + handler.getAmount());
-        System.out.println("Amount of suitable users: " + users.size());
         for (User user : users){
             System.out.println(user);
-
         }
-
+        System.out.println("Amount of all users: " + handler.getAmount());
+        System.out.println("Amount of suitable users: " + users.size());
     }
 }

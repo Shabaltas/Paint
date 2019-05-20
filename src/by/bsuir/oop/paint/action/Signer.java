@@ -18,7 +18,7 @@ public class Signer {
     public int signedFileContentSize;
     private PrivateKey privateKey;
     private PublicKey  publicKey;
-    private static final Logger LOGGER = Logger.getLogger(Signer.class);
+    private static final Logger LOGGER = Logger.getLogger(Signer.class.getSimpleName());
 
     private Signer(boolean _isSigned) {
         isSigned = _isSigned;
@@ -42,7 +42,7 @@ public class Signer {
                 createKeys();
                 oos.writeObject(publicKey);
             }catch (IOException e){
-                LOGGER.error(e);
+                LOGGER.warn(e);
             }catch (NoSuchAlgorithmException | NoSuchProviderException e){
 
             }
