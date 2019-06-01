@@ -3,6 +3,7 @@ package by.bsuir.oop.paint.sample;
 import by.bsuir.oop.paint.action.Signer;
 import by.bsuir.oop.paint.configuration.language.Words;
 import by.bsuir.oop.paint.entity.*;
+import by.bsuir.oop.readerXML.entity.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,6 +23,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -30,14 +34,15 @@ import java.util.regex.Pattern;
 
 public class Controller implements Initializable {
 
+    private static final String DATA_USER_SHAPES = "data\\user\\shapes\\";
+    private static final String XMLEXTENSION = ".xml";
     private static FileChooser fileChooser = new FileChooser();
     private static String extension = Main.extension;
     private static HashMap<Words, String> languageMap = Main.language.getWordsMap();
     private static Alert alert = new Alert(Alert.AlertType.ERROR);
     static {
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML files", "*.xml"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML files", XMLEXTENSION));
         alert.setTitle("Error dialog");
-        alert.setHeaderText("Check your file");
     }
     @FXML
     private Menu menuFile, menuEdit, menuHelp;
@@ -118,7 +123,7 @@ public class Controller implements Initializable {
         Optional<String> result = inputDialog.showAndWait();
         String fileName;
         if (result.isPresent()){
-            fileName = result.get() + ".xml";
+            fileName = result.get() + XMLEXTENSION;
             try (FileOutputStream encoder = new FileOutputStream("data\\user\\pictures\\" + fileName)){
                 LOGGER.info("file " + fileName + " created");
                 ShapeListWrapper drawnShapes = new ShapeListWrapper();
@@ -159,6 +164,7 @@ public class Controller implements Initializable {
                     list.add(sh);
                 }
             } catch (JAXBException | IOException e){
+                alert.setHeaderText("Check file: " + file.getName());
                 alert.showAndWait();
                 LOGGER.error(e);
             }
@@ -213,7 +219,7 @@ public class Controller implements Initializable {
                         if (signer.isOriginal(pathToDir + module)) {
                             loader.setFsize(signer.signedFileContentSize);
                             Class loadedClass = loader.loadClass(moduleName);
-                            LOGGER.info(moduleName + extension + " loaded");
+                            LOGGER.debug(moduleName + extension + " loaded");
                             if (loadedClass != null) {
                                 if (ShapeFactory.class.isAssignableFrom(loadedClass)) {
                                     factoryHashMap.put(moduleName.substring(0, moduleName.indexOf("Factory")), (ShapeFactory) loadedClass.newInstance());
@@ -233,7 +239,7 @@ public class Controller implements Initializable {
                 }
             }
         }catch (Exception e){
-            LOGGER.error("Error while uploading shapes:\n" + e);
+            LOGGER.warn("Error while uploading shapes:\n" + e);
             alert.setHeaderText("Error while uploading shapes");
             alert.showAndWait();
         }
@@ -288,7 +294,7 @@ public class Controller implements Initializable {
                     // нарушена.
                 }
             } catch (SecurityException se) {
-                LOGGER.error("SecurityException : " +
+                LOGGER.warn("SecurityException : " +
                         se.getMessage());
                 return false;
             }
@@ -313,6 +319,7 @@ public class Controller implements Initializable {
             iupload.setText(languageMap.get(Words.UPLOAD));
             bBack.setText(languageMap.get(Words.BACK));
             bClear.setText(languageMap.get(Words.CLEAR));
+            colorPicker.setValue(Color.BLACK);
             String dir = new File(URLDecoder.decode(getClass().getProtectionDomain().getCodeSource().getLocation().getPath(), "UTF-8")).getPath();
             loadModules("F:\\modules\\shapes\\", "by.bsuir.oop.paint.modules.shapes");
         } catch (UnsupportedEncodingException e) {
@@ -320,30 +327,13 @@ public class Controller implements Initializable {
         }
     }
 
-    public void upload(ActionEvent actionEvent) {
-        List<File> files = fileChooser.showOpenMultipleDialog(null);
-        if (files != null) {
-            for (File file : files) {
-                LOGGER.info("file " + file.getName() + " opened");
-                try (FileInputStream decoder = new FileInputStream(file)) {
-                    JAXBContext context = JAXBContext.newInstance(UserShape.class);
-                    Unmarshaller um = context.createUnmarshaller();
-                    UserShape uShape = (UserShape) um.unmarshal(decoder);
-                    String name = file.getName().replace(".xml", "");
-                    factoryHashMap.put(name, new UserShapeFactory(uShape, factoryHashMap));
-                    MenuItem item = new MenuItem(name);
-                    item.setOnAction(this::chooseShape);
-                    menuShapes.getItems().add(item);
-                } catch (JAXBException | IOException e) {
-                    alert.showAndWait();
-                    LOGGER.error(e);
-                }
-                LOGGER.info("Shape " + file.getName() + " uploaded");
-            }
-        }
+    public void upload() throws IOException {
+        Files.list(Paths.get(DATA_USER_SHAPES))
+                .filter(path -> path.toString().endsWith(XMLEXTENSION))
+                .forEach(path -> uploadOne(path.toFile()));
     }
 
-    public void saveUserShape(ActionEvent actionEvent) {
+    public void saveUserShape() {
         LOGGER.info("file -> creating user shape...");
         TextInputDialog inputDialog = new TextInputDialog();
         inputDialog.setHeaderText("Enter name of your shape");
@@ -352,19 +342,76 @@ public class Controller implements Initializable {
         Optional<String> uShapeName = inputDialog.showAndWait();
         String fileName;
         if (uShapeName.isPresent()){
-            fileName = uShapeName.get() + ".xml";
-            try (FileOutputStream encoder = new FileOutputStream("data\\user\\shapes\\" + fileName)){
-                LOGGER.info("Shape " + uShapeName + " created");
+            fileName = uShapeName.get() + XMLEXTENSION;
+            try (FileOutputStream encoder = new FileOutputStream(DATA_USER_SHAPES + fileName)){
+                LOGGER.debug("Shape " + uShapeName + " created");
                 UserShape uShape = new UserShape();
-                uShape.setShapes(list);
+                ArrayList<Shape> userShapesList = new ArrayList<>();
+                list.stream().forEach(shape -> {
+                    if (shape instanceof UserShape){
+                        userShapesList.addAll(((UserShape) shape).getShapes());
+                    } else {
+                        userShapesList.add(shape);
+                    }
+                });
+                uShape.setShapes(userShapesList);
                 JAXBContext context = JAXBContext.newInstance(UserShape.class);
                 Marshaller m = context.createMarshaller();
                 m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
                 m.marshal(uShape, encoder);
+                uploadOne(Paths.get(DATA_USER_SHAPES + fileName).toFile());
             } catch (IOException | JAXBException e) {
                 LOGGER.error(e);
             }
-            LOGGER.info("User shape \"" + fileName + "\" saved");
+            LOGGER.debug("User shape \"" + fileName + "\" saved");
+        }
+    }
+
+    private void uploadOne(File file) {
+        LOGGER.debug("file " + file.getName() + " opened");
+        try (FileInputStream decoder = new FileInputStream(file)) {
+            JAXBContext context = JAXBContext.newInstance(UserShape.class);
+            Unmarshaller um = context.createUnmarshaller();
+            UserShape uShape = (UserShape) um.unmarshal(decoder);
+            String name = file.getName().replace(XMLEXTENSION, "");
+            factoryHashMap.put(name, new UserShapeFactory(uShape, factoryHashMap));
+            MenuItem item = new MenuItem(name);
+            item.setOnAction(this::chooseShape);
+            menuShapes.getItems().add(item);
+        } catch (JAXBException | IOException e) {
+            alert.setHeaderText("Check: " + file);
+            alert.showAndWait();
+            LOGGER.warn(e);
+        }
+        LOGGER.debug("Shape " + file.getName() + " uploaded");
+    }
+
+    public void deleteUserShape() {
+        if (shapeFactory == null) {
+            alert.setHeaderText("Choose the shape before");
+            alert.showAndWait();
+        } else if (shapeFactory instanceof UserShapeFactory) {
+            String itemText = menuShapes.getText();
+            String path = DATA_USER_SHAPES + itemText + XMLEXTENSION;
+            try {
+               // Files.delete(Paths.get(path));
+            } catch (Exception e) {
+
+            } finally {
+                int i = 0;
+                factoryHashMap.remove(itemText);
+                while (i < menuShapes.getItems().size()) {
+                    if (menuShapes.getItems().get(i).getText().equals(itemText)) {
+                        menuShapes.getItems().remove(i);
+                    } else {
+                        i++;
+                    }
+                }
+                menuShapes.setText(languageMap.get(Words.SHAPES));
+            }
+        } else {
+            alert.setHeaderText("Can't delete basic shape");
+            alert.showAndWait();
         }
     }
 }

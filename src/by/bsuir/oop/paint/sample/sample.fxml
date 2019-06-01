@@ -22,7 +22,7 @@
           </Menu>
           <Menu fx:id="menuEdit" mnemonicParsing="false">
             <items>
-              <MenuItem fx:id="idelete" mnemonicParsing="false" />
+              <MenuItem fx:id="idelete" mnemonicParsing="false" onAction="#deleteUserShape"/>
             </items>
           </Menu>
           <Menu fx:id="menuHelp" mnemonicParsing="false">
