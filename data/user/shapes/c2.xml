@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<UserShape>
+    <innerShape type="Circle">
+        <firstPoint>
+            <x>159.0</x>
+            <y>56.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>519.0</x>
+            <y>417.0</y>
+        </secondPoint>
+        <color>0x000000ff</color>
+    </innerShape>
+    <innerShape type="Circle">
+        <firstPoint>
+            <x>700.0</x>
+            <y>179.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>409.0</x>
+            <y>369.0</y>
+        </secondPoint>
+        <color>0x000000ff</color>
+    </innerShape>
+    <innerShape type="Circle">
+        <firstPoint>
+            <x>356.0</x>
+            <y>332.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>954.0</x>
+            <y>677.0</y>
+        </secondPoint>
+        <color>0x000000ff</color>
+    </innerShape>
+    <innerShape type="Circle">
+        <firstPoint>
+            <x>8.0</x>
+            <y>353.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>137.0566037735849</x>
+            <y>491.9355877616747</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="Circle">
+        <firstPoint>
+            <x>201.94339622641508</x>
+            <y>400.33816425120773</y>
+        </firstPoint>
+        <secondPoint>
+            <x>97.62264150943395</x>
+            <y>473.46215780998386</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="Circle">
+        <firstPoint>
+            <x>78.62264150943396</x>
+            <y>459.22222222222223</y>
+        </firstPoint>
+        <secondPoint>
+            <x>293.0</x>
+            <y>592.0</y>
+        </secondPoint>
+    </innerShape>
+    <initFirstPoint>
+        <x>8.0</x>
+        <y>56.0</y>
+    </initFirstPoint>
+    <initSecondPoint>
+        <x>954.0</x>
+        <y>677.0</y>
+    </initSecondPoint>
+</UserShape>

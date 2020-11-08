@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<UserShape>
+    <innerShape type="Circle">
+        <firstPoint>
+            <x>151.0</x>
+            <y>151.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>368.0</x>
+            <y>353.0</y>
+        </secondPoint>
+        <color>0x333333ff</color>
+    </innerShape>
+    <innerShape type="RoundRectangle">
+        <firstPoint>
+            <x>55.0</x>
+            <y>151.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>452.0</x>
+            <y>353.0</y>
+        </secondPoint>
+        <color>0x333333ff</color>
+    </innerShape>
+    <innerShape type="Rhomb">
+        <firstPoint>
+            <x>252.0</x>
+            <y>152.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>153.0</x>
+            <y>252.0</y>
+        </secondPoint>
+        <color>0x333333ff</color>
+    </innerShape>
+    <innerShape type="Line">
+        <firstPoint>
+            <x>435.0</x>
+            <y>352.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>258.0</x>
+            <y>493.0</y>
+        </secondPoint>
+        <color>0x333333ff</color>
+    </innerShape>
+    <innerShape type="Line">
+        <firstPoint>
+            <x>258.0</x>
+            <y>493.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>71.0</x>
+            <y>351.0</y>
+        </secondPoint>
+        <color>0x333333ff</color>
+    </innerShape>
+    <initFirstPoint>
+        <x>55.0</x>
+        <y>151.0</y>
+    </initFirstPoint>
+    <initSecondPoint>
+        <x>452.0</x>
+        <y>493.0</y>
+    </initSecondPoint>
+</UserShape>

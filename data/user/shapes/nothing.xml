@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<UserShape>
+    <innerShape type="RoundRectangle">
+        <firstPoint>
+            <x>149.0</x>
+            <y>111.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>502.0</x>
+            <y>377.0</y>
+        </secondPoint>
+        <color>0x661a33ff</color>
+    </innerShape>
+    <innerShape type="RoundRectangle">
+        <firstPoint>
+            <x>636.0</x>
+            <y>115.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>334.0</x>
+            <y>398.0</y>
+        </secondPoint>
+        <color>0x661a33ff</color>
+    </innerShape>
+    <innerShape type="RoundRectangle">
+        <firstPoint>
+            <x>267.0</x>
+            <y>549.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>660.0</x>
+            <y>578.0</y>
+        </secondPoint>
+        <color>0x661a33ff</color>
+    </innerShape>
+    <initFirstPoint>
+        <x>149.0</x>
+        <y>111.0</y>
+    </initFirstPoint>
+    <initSecondPoint>
+        <x>660.0</x>
+        <y>578.0</y>
+    </initSecondPoint>
+</UserShape>

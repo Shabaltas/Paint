@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Shapes>
+    <shape type="Ellipse">
+        <firstPoint>
+            <x>307.0</x>
+            <y>139.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>488.0</x>
+            <y>310.0</y>
+        </secondPoint>
+        <color>0x853952ff</color>
+    </shape>
+    <shape type="Ellipse">
+        <firstPoint>
+            <x>651.0</x>
+            <y>195.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>81.0</x>
+            <y>331.0</y>
+        </secondPoint>
+        <color>0x853952ff</color>
+    </shape>
+    <shape type="Rhomb">
+        <firstPoint>
+            <x>286.0</x>
+            <y>154.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>510.0</x>
+            <y>377.0</y>
+        </secondPoint>
+        <color>0x80b3b3ff</color>
+    </shape>
+    <shape type="Square">
+        <firstPoint>
+            <x>805.0</x>
+            <y>127.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>214.0</x>
+            <y>485.0</y>
+        </secondPoint>
+        <color>0x990000ff</color>
+    </shape>
+    <shape type="Square">
+        <firstPoint>
+            <x>255.0</x>
+            <y>232.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>255.0</x>
+            <y>232.0</y>
+        </secondPoint>
+        <color>0x990000ff</color>
+    </shape>
+</Shapes>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Shapes>
+    <shape type="Line">
+        <firstPoint>
+            <x>140.0</x>
+            <y>161.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>523.0</x>
+            <y>467.0</y>
+        </secondPoint>
+        <color>0x001a80ff</color>
+    </shape>
+    <shape type="Line">
+        <firstPoint>
+            <x>585.0</x>
+            <y>168.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>456.0</x>
+            <y>335.0</y>
+        </secondPoint>
+        <color>0x001a80ff</color>
+    </shape>
+    <shape type="Ellipse">
+        <firstPoint>
+            <x>759.0</x>
+            <y>134.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>295.0</x>
+            <y>283.0</y>
+        </secondPoint>
+        <color>0xb3ccffff</color>
+    </shape>
+    <shape type="Ellipse">
+        <firstPoint>
+            <x>213.0</x>
+            <y>371.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>724.0</x>
+            <y>430.0</y>
+        </secondPoint>
+        <color>0xb3ccffff</color>
+    </shape>
+    <shape type="Triangle">
+        <firstPoint>
+            <x>398.0</x>
+            <y>198.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>317.0</x>
+            <y>515.0</y>
+        </secondPoint>
+        <color>0x4d804dff</color>
+    </shape>
+    <shape type="Triangle">
+        <firstPoint>
+            <x>450.0</x>
+            <y>127.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>450.0</x>
+            <y>127.0</y>
+        </secondPoint>
+        <color>0x4d804dff</color>
+    </shape>
+    <shape type="Triangle">
+        <firstPoint>
+            <x>887.0</x>
+            <y>158.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>673.0</x>
+            <y>690.0</y>
+        </secondPoint>
+        <color>0x990000ff</color>
+    </shape>
+</Shapes>

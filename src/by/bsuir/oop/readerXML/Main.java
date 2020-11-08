@@ -14,7 +14,7 @@ import org.xml.sax.SAXException;
 
 public class Main {
 
-    private static final String PATH = "data\\SAXfiles\\feed-test.xml";
+    private static final String PATH = "data\\SAXfiles\\Banks.xml";
 
     private static final Logger LOGGER = Logger.getLogger(Main.class);
     public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {

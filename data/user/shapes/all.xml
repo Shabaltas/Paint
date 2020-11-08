@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<UserShape>
+    <innerShape type="Rectangle">
+        <firstPoint>
+            <x>81.0</x>
+            <y>125.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>319.0</x>
+            <y>300.0</y>
+        </secondPoint>
+        <color>0x000000ff</color>
+    </innerShape>
+    <innerShape type="Rectangle">
+        <firstPoint>
+            <x>276.0</x>
+            <y>241.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>576.0</x>
+            <y>442.0</y>
+        </secondPoint>
+        <color>0x000000ff</color>
+    </innerShape>
+    <innerShape type="Rectangle">
+        <firstPoint>
+            <x>675.0</x>
+            <y>148.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>403.0</x>
+            <y>341.0</y>
+        </secondPoint>
+        <color>0x000000ff</color>
+    </innerShape>
+    <innerShape type="RoundRectangle">
+        <firstPoint>
+            <x>148.0</x>
+            <y>384.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>422.2485322896282</x>
+            <y>561.1434689507495</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="RoundRectangle">
+        <firstPoint>
+            <x>526.3542074363993</x>
+            <y>386.6638115631692</y>
+        </firstPoint>
+        <secondPoint>
+            <x>291.7279843444228</x>
+            <y>575.1284796573876</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="RoundRectangle">
+        <firstPoint>
+            <x>239.6751467710372</x>
+            <y>675.6873661670236</y>
+        </firstPoint>
+        <secondPoint>
+            <x>545.0</x>
+            <y>695.0</y>
+        </secondPoint>
+    </innerShape>
+    <initFirstPoint>
+        <x>81.0</x>
+        <y>125.0</y>
+    </initFirstPoint>
+    <initSecondPoint>
+        <x>675.0</x>
+        <y>695.0</y>
+    </initSecondPoint>
+</UserShape>

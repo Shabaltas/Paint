@@ -27,6 +27,7 @@ public class XMLHandler extends DefaultHandler {
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException{
+        System.out.println(localName);
         String qNameUp = qName.toUpperCase();
         if (new XMLValidator().isEnumValid(Tag.class, qNameUp)) {
             tag = Tag.valueOf(qNameUp);

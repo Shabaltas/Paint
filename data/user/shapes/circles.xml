@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<UserShape>
+    <innerShape type="Circle">
+        <firstPoint>
+            <x>159.0</x>
+            <y>56.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>519.0</x>
+            <y>417.0</y>
+        </secondPoint>
+        <color>0x000000ff</color>
+    </innerShape>
+    <innerShape type="Circle">
+        <firstPoint>
+            <x>700.0</x>
+            <y>179.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>409.0</x>
+            <y>369.0</y>
+        </secondPoint>
+        <color>0x000000ff</color>
+    </innerShape>
+    <innerShape type="Circle">
+        <firstPoint>
+            <x>356.0</x>
+            <y>332.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>954.0</x>
+            <y>677.0</y>
+        </secondPoint>
+        <color>0x000000ff</color>
+    </innerShape>
+    <initFirstPoint>
+        <x>159.0</x>
+        <y>56.0</y>
+    </initFirstPoint>
+    <initSecondPoint>
+        <x>954.0</x>
+        <y>677.0</y>
+    </initSecondPoint>
+</UserShape>

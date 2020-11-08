@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<UserShape>
+    <innerShape type="Circle">
+        <firstPoint>
+            <x>105.00534759358288</x>
+            <y>182.0548780487805</y>
+        </firstPoint>
+        <secondPoint>
+            <x>172.2566844919786</x>
+            <y>230.71341463414635</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="Circle">
+        <firstPoint>
+            <x>121.11764705882354</x>
+            <y>143.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>193.27272727272728</x>
+            <y>197.4207317073171</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="Circle">
+        <firstPoint>
+            <x>140.03208556149733</x>
+            <y>186.53658536585365</y>
+        </firstPoint>
+        <secondPoint>
+            <x>229.0</x>
+            <y>240.9573170731707</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="Triangle">
+        <firstPoint>
+            <x>154.7433155080214</x>
+            <y>353.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>98.0</x>
+            <y>215.34756097560975</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="RoundRectangle">
+        <firstPoint>
+            <x>324.6416464891041</x>
+            <y>140.35547576301616</y>
+        </firstPoint>
+        <secondPoint>
+            <x>437.9200968523003</x>
+            <y>404.7576301615799</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="Circle">
+        <firstPoint>
+            <x>345.71670702179176</x>
+            <y>67.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>416.18644067796606</x>
+            <y>161.3141831238779</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="Circle">
+        <firstPoint>
+            <x>389.1840193704601</x>
+            <y>97.63195691202873</y>
+        </firstPoint>
+        <secondPoint>
+            <x>399.0629539951574</x>
+            <y>112.14183123877918</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="Circle">
+        <firstPoint>
+            <x>362.181598062954</x>
+            <y>97.63195691202873</y>
+        </firstPoint>
+        <secondPoint>
+            <x>374.6949152542373</x>
+            <y>110.52962298025135</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="Ellipse">
+        <firstPoint>
+            <x>387.2082324455206</x>
+            <y>129.07001795332138</y>
+        </firstPoint>
+        <secondPoint>
+            <x>368.7675544794189</x>
+            <y>133.90664272890487</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="Line">
+        <firstPoint>
+            <x>428.0411622276029</x>
+            <y>220.15978456014363</y>
+        </firstPoint>
+        <secondPoint>
+            <x>513.0</x>
+            <y>267.7199281867146</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="Line">
+        <firstPoint>
+            <x>339.78934624697337</x>
+            <y>220.15978456014363</y>
+        </firstPoint>
+        <secondPoint>
+            <x>241.0</x>
+            <y>299.9640933572711</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="Line">
+        <firstPoint>
+            <x>391.818401937046</x>
+            <y>86.34649910233394</y>
+        </firstPoint>
+        <secondPoint>
+            <x>409.6004842615012</x>
+            <y>97.63195691202873</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="Line">
+        <firstPoint>
+            <x>368.10895883777243</x>
+            <y>83.12208258527828</y>
+        </firstPoint>
+        <secondPoint>
+            <x>353.6198547215497</x>
+            <y>93.60143626570915</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="Line">
+        <firstPoint>
+            <x>380.6222760290557</x>
+            <y>111.33572710951526</y>
+        </firstPoint>
+        <secondPoint>
+            <x>386.5496368038741</x>
+            <y>121.00897666068222</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="Line">
+        <firstPoint>
+            <x>386.5496368038741</x>
+            <y>121.00897666068224</y>
+        </firstPoint>
+        <secondPoint>
+            <x>378.6464891041162</x>
+            <y>119.39676840215441</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="Rhomb">
+        <firstPoint>
+            <x>383.91525423728814</x>
+            <y>154.8653500897666</y>
+        </firstPoint>
+        <secondPoint>
+            <x>395.76997578692493</x>
+            <y>217.74147217235188</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="Ellipse">
+        <firstPoint>
+            <x>399.72154963680384</x>
+            <y>391.05385996409336</y>
+        </firstPoint>
+        <secondPoint>
+            <x>418.16222760290555</x>
+            <y>516.0</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="Ellipse">
+        <firstPoint>
+            <x>370.7433414043584</x>
+            <y>387.8294434470377</y>
+        </firstPoint>
+        <secondPoint>
+            <x>354.27845036319616</x>
+            <y>508.7450628366248</y>
+        </secondPoint>
+    </innerShape>
+    <innerShape type="Ellipse">
+        <firstPoint>
+            <x>358.8886198547216</x>
+            <y>508.7450628366248</y>
+        </firstPoint>
+        <secondPoint>
+            <x>358.8886198547216</x>
+            <y>508.7450628366248</y>
+        </secondPoint>
+    </innerShape>
+    <initFirstPoint>
+        <x>98.0</x>
+        <y>67.0</y>
+    </initFirstPoint>
+    <initSecondPoint>
+        <x>513.0</x>
+        <y>516.0</y>
+    </initSecondPoint>
+</UserShape>

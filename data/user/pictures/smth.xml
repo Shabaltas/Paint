@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<UserShape>
+    <innerShape type="Ellipse">
+        <firstPoint>
+            <x>135.0</x>
+            <y>115.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>499.0</x>
+            <y>310.0</y>
+        </secondPoint>
+        <color>0xb31a1aff</color>
+    </innerShape>
+    <innerShape type="Triangle">
+        <firstPoint>
+            <x>493.0</x>
+            <y>322.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>373.0</x>
+            <y>490.0</y>
+        </secondPoint>
+        <color>0xb31a1aff</color>
+    </innerShape>
+    <innerShape type="Rectangle">
+        <firstPoint>
+            <x>331.0</x>
+            <y>354.0</y>
+        </firstPoint>
+        <secondPoint>
+            <x>110.0</x>
+            <y>459.0</y>
+        </secondPoint>
+        <color>0xb31a1aff</color>
+    </innerShape>
+    <initFirstPoint>
+        <x>110.0</x>
+        <y>115.0</y>
+    </initFirstPoint>
+    <initSecondPoint>
+        <x>499.0</x>
+        <y>490.0</y>
+    </initSecondPoint>
+</UserShape>
